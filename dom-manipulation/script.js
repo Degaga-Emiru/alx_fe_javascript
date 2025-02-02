@@ -80,7 +80,34 @@ function createAddQuoteForm() {
     let addButton = document.createElement("button");
     addButton.textContent = "Add Quote";
     addButton.onclick = addQuote;
-     fetch("https://jsonplaceholder.typicode.com/posts", {
+
+    // Append elements
+    form.appendChild(quoteInput);
+    form.appendChild(categoryInput);
+    form.appendChild(addButton);
+
+    // Add form to the body
+    document.body.appendChild(form);
+}
+
+function addQuote() {
+    let quoteText = document.getElementById("newQuoteText").value.trim();
+    let quoteCategory = document.getElementById("newQuoteCategory").value.trim();
+
+    if (!quoteText || !quoteCategory) {
+        alert("Please enter both a quote and category!");
+        return;
+    }
+
+    let newQuote = { text: quoteText, category: quoteCategory };
+
+    // Add the quote locally
+    quotes.push(newQuote);
+    saveQuotes();
+    populateCategories();
+
+    // Send the new quote to the server
+    fetch("https://jsonplaceholder.typicode.com/posts", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -90,13 +117,30 @@ function createAddQuoteForm() {
     .then(response => response.json())
     .then(data => {
         console.log("Quote successfully sent to the server:", data);
-        alert("Quote added and synced with server!");
+        showNotification("Quote added and synced with server!");
     })
-    .catch(error => console.error("Error posting quote:", error));
-    // Append elements
-    form.appendChild(quoteInput);
-    form.appendChild(categoryInput);
-    form.appendChild(addButton);
+    .catch(error => {
+        console.error("Error posting quote:", error);
+        showNotification("Failed to sync quote with server.", "red");
+    });
+
+    // Clear input fields
+    document.getElementById("newQuoteText").value = "";
+    document.getElementById("newQuoteCategory").value = "";
+}
+
+// Function to show notifications
+function showNotification(message, color = "lightgreen") {
+    const notification = document.getElementById("notification");
+    notification.style.backgroundColor = color; // Default is lightgreen, red if error
+    notification.textContent = message;
+    notification.style.display = "block";
+
+    // Hide the notification after 5 seconds
+    setTimeout(() => {
+        notification.style.display = "none";
+    }, 5000);
+}
 
     // Add form to the body
     document.body.appendChild(form);
