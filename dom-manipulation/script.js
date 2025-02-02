@@ -59,26 +59,36 @@ function restoreLastQuote() {
 }
 
 // Add a New Quote
-function addQuote() {
-    let quoteText = document.getElementById("newQuoteText").value.trim();
-    let quoteCategory = document.getElementById("newQuoteCategory").value.trim();
+function createAddQuoteForm() {
+    // Check if the form already exists
+    if (document.getElementById("quoteForm")) return;
 
-    if (!quoteText || !quoteCategory) {
-        alert("Please enter both a quote and category!");
-        return;
-    }
+    // Create form elements
+    let form = document.createElement("div");
+    form.id = "quoteForm";
 
-    let newQuote = { text: quoteText, category: quoteCategory };
-    quotes.push(newQuote);
-    saveQuotes();
-    populateCategories();
+    let quoteInput = document.createElement("input");
+    quoteInput.type = "text";
+    quoteInput.id = "newQuoteText";
+    quoteInput.placeholder = "Enter a new quote";
 
-    document.getElementById("newQuoteText").value = "";
-    document.getElementById("newQuoteCategory").value = "";
+    let categoryInput = document.createElement("input");
+    categoryInput.type = "text";
+    categoryInput.id = "newQuoteCategory";
+    categoryInput.placeholder = "Enter quote category";
 
-    alert("New quote added successfully!");
+    let addButton = document.createElement("button");
+    addButton.textContent = "Add Quote";
+    addButton.onclick = addQuote;
+
+    // Append elements
+    form.appendChild(quoteInput);
+    form.appendChild(categoryInput);
+    form.appendChild(addButton);
+
+    // Add form to the body
+    document.body.appendChild(form);
 }
-
 // Export Quotes as JSON
 function exportQuotes() {
     const jsonData = JSON.stringify(quotes, null, 2);
