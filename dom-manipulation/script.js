@@ -181,7 +181,9 @@ function fetchQuotesFromServer() {
             alert("Quotes fetched from server and updated!");
         })
         .catch(error => console.error("Error fetching quotes:", error));
+    setInterval(fetchQuotesFromServer, 60000); // Fetch every 60 seconds
 }
+
 fetchQuotesFromServer(); // Call function when the page loads
 // Event Listeners
 document.getElementById("newQuote").addEventListener("click", showRandomQuote);
