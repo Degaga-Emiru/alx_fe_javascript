@@ -152,7 +152,25 @@ async function syncWithServer() {
         document.getElementById("syncStatus").textContent = "Error syncing with server.";
     }
 }
+function fetchQuotesFromServer() {
+    fetch("https://jsonplaceholder.typicode.com/posts") // Example API
+        .then(response => response.json())
+        .then(data => {
+            let serverQuotes = data.map(item => ({
+                text: item.title,  // Using 'title' as quote text (modify if needed)
+                category: "General" // Default category (change if needed)
+            }));
 
+            // Merge server quotes with local storage quotes
+            quotes = [...quotes, ...serverQuotes];
+
+            saveQuotes(); // Save to local storage
+            populateCategories();
+            alert("Quotes fetched from server and updated!");
+        })
+        .catch(error => console.error("Error fetching quotes:", error));
+}
+fetchQuotesFromServer(); // Call function when the page loads
 // Event Listeners
 document.getElementById("newQuote").addEventListener("click", showRandomQuote);
 document.getElementById("addQuoteBtn").addEventListener("click", addQuote);
