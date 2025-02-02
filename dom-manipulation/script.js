@@ -12,7 +12,7 @@ function saveQuotes() {
     localStorage.setItem("quotes", JSON.stringify(quotes));
 }
 
-// Function to display quotes based on the selected category
+// Function to display a random quote based on the selected category
 function filterQuotes() {
     const selectedCategory = document.getElementById("categoryFilter").value;
     localStorage.setItem("selectedCategory", selectedCategory); // Save filter preference
@@ -29,11 +29,17 @@ function filterQuotes() {
         return;
     }
 
-    filteredQuotes.forEach(quote => {
-        const quoteElement = document.createElement("p");
-        quoteElement.textContent = `${quote.text} (Category: ${quote.category})`;
-        quoteDisplay.appendChild(quoteElement);
-    });
+    // Select a random quote from the filtered list
+    const randomIndex = Math.floor(Math.random() * filteredQuotes.length);
+    const randomQuote = filteredQuotes[randomIndex];
+
+    // Display the randomly selected quote
+    const quoteElement = document.createElement("p");
+    quoteElement.textContent = `${randomQuote.text} (Category: ${randomQuote.category})`;
+    quoteDisplay.appendChild(quoteElement);
+
+    // Save the last viewed quote in session storage
+    sessionStorage.setItem("lastViewedQuote", JSON.stringify(randomQuote));
 }
 
 // Function to populate categories dynamically
