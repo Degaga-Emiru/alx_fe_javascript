@@ -143,6 +143,7 @@ async function syncWithServer() {
 
 // Attach event listeners
 document.getElementById("newQuote").addEventListener("click", showRandomQuote);
+document.getElementById("syncQuotes").addEventListener("click", syncWithServer);
 document.addEventListener("DOMContentLoaded", () => {
     createAddQuoteForm();
     populateCategories();
