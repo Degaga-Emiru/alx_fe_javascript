@@ -26,7 +26,11 @@
         <input id="newQuoteCategory" type="text" placeholder="Enter quote category" />
         <button id="addQuoteBtn">Add Quote</button>
     </div>
+ <div id="quoteDisplay"></div>
+    <button id="newQuote">Show New Quote</button>
 
+    <!-- Notification area for showing sync messages -->
+    <div id="notification" style="display:none; padding: 10px; background-color: lightgreen; color: darkgreen; margin-top: 10px;"></div>
     <h2>Import/Export Quotes</h2>
     <button id="exportQuotes">Export as JSON</button>
     <input type="file" id="importFile" accept=".json" />
