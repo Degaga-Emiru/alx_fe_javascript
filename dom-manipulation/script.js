@@ -22,16 +22,16 @@ function filterQuotes() {
         : quotes.filter(quote => quote.category === selectedCategory);
 
     const quoteDisplay = document.getElementById("quoteDisplay");
-    quoteDisplay.innerHTML = ""; // Clear previous quotes
+    quoteDisplay.textContent = ""; // Clear previous quotes using textContent
 
     if (filteredQuotes.length === 0) {
-        quoteDisplay.innerHTML = "<p>No quotes available for this category.</p>";
+        quoteDisplay.textContent = "No quotes available for this category.";
         return;
     }
 
     filteredQuotes.forEach(quote => {
         const quoteElement = document.createElement("p");
-        quoteElement.innerHTML = `<strong>${quote.text}</strong> <em>(Category: ${quote.category})</em>`;
+        quoteElement.textContent = `${quote.text} (Category: ${quote.category})`;
         quoteDisplay.appendChild(quoteElement);
     });
 }
@@ -39,13 +39,18 @@ function filterQuotes() {
 // Function to populate categories dynamically
 function populateCategories() {
     const categoryFilter = document.getElementById("categoryFilter");
-    categoryFilter.innerHTML = '<option value="all">All Categories</option>'; // Reset categories
+    categoryFilter.textContent = ""; // Reset categories using textContent
+
+    const allOption = document.createElement("option");
+    allOption.value = "all";
+    allOption.textContent = "All Categories";
+    categoryFilter.appendChild(allOption);
 
     const uniqueCategories = [...new Set(quotes.map(quote => quote.category))]; // Get unique categories
     uniqueCategories.forEach(category => {
         const option = document.createElement("option");
         option.value = category;
-        option.innerText = category;
+        option.textContent = category; // Use textContent instead of innerText
         categoryFilter.appendChild(option);
     });
 
@@ -72,7 +77,7 @@ function createAddQuoteForm() {
     inputCategory.setAttribute("placeholder", "Enter quote category");
 
     const addButton = document.createElement("button");
-    addButton.innerText = "Add Quote";
+    addButton.textContent = "Add Quote";
     addButton.addEventListener("click", addQuote);
 
     formContainer.appendChild(inputText);
@@ -111,10 +116,7 @@ function addQuote() {
 function restoreLastViewedQuote() {
     const lastQuote = JSON.parse(sessionStorage.getItem("lastViewedQuote"));
     if (lastQuote) {
-        document.getElementById("quoteDisplay").innerHTML = `
-            <p><strong>${lastQuote.text}</strong></p>
-            <p><em>Category: ${lastQuote.category}</em></p>
-        `;
+        document.getElementById("quoteDisplay").textContent = `${lastQuote.text} (Category: ${lastQuote.category})`;
     }
 }
 
