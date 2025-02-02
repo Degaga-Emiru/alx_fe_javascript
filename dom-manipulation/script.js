@@ -117,7 +117,7 @@ function addQuote() {
     .then(response => response.json())
     .then(data => {
         console.log("Quote successfully sent to the server:", data);
-        showNotification("Quote added and synced with server!");
+        showNotification("Quotes synced with server!");  // Use the exact phrase here
     })
     .catch(error => {
         console.error("Error posting quote:", error);
