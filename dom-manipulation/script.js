@@ -80,7 +80,19 @@ function createAddQuoteForm() {
     let addButton = document.createElement("button");
     addButton.textContent = "Add Quote";
     addButton.onclick = addQuote;
-
+     fetch("https://jsonplaceholder.typicode.com/posts", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(newQuote)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Quote successfully sent to the server:", data);
+        alert("Quote added and synced with server!");
+    })
+    .catch(error => console.error("Error posting quote:", error));
     // Append elements
     form.appendChild(quoteInput);
     form.appendChild(categoryInput);
